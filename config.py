@@ -1,0 +1,6 @@
+import os
+
+GCP_PROJECT = os.environ.get("GCP_PROJECT")
+BQ_DATASET = os.environ.get("AIR_POLLUTION_BQ_DATASET")
+TABLE_NAME = os.environ.get("BQ_AIR_POLLUTION_TABLE_NAME")
+AIR_POLLUTION_API_KEY = os.environ.get("AIR_POLLUTION_API_KEY")
