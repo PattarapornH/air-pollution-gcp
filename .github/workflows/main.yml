@@ -1,0 +1,48 @@
+name: Deploy Cloud Function
+
+on:
+  push:
+    branches:
+      - main
+
+env:
+  GCP_PROJECT: ${{ secrets.GCP_PROJECT }}
+  GCP_FUNCTION_REGION: ${{ secrets.GCP_FUNCTION_REGION }}
+  GCP_TOPIC_AIR_POLLUTION: ${{ secrets.GCP_TOPIC_AIR_POLLUTION }}
+  AIR_POLLUTION_BQ_DATASET: ${{ secrets.AIR_POLLUTION_BQ_DATASET }}
+  BQ_AIR_POLLUTION_TABLE_NAME: ${{ secrets.BQ_AIR_POLLUTION_TABLE_NAME }}
+  AIR_POLLUTION_API_KEY: ${{ secrets.AIR_POLLUTION_API_KEY }}
+  
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+
+    
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v4
+
+    - name: Authenticate to GCP
+      uses: google-github-actions/auth@v1
+      with:
+        credentials_json: ${{ secrets.GCP_CREDENTIALS }}
+
+
+
+    - name: Deploy Cloud Function
+      run: |
+        gcloud functions deploy air-pollution-scraper-dev \
+        --entry-point main \
+        --source . \
+        --project $GCP_PROJECT \
+        --runtime python39\
+        --region $GCP_FUNCTION_REGION \
+        --trigger-topic $GCP_TOPIC_AIR_POLLUTION  \
+        --memory 1GB \
+        --max-instances 1 \
+        --set-env-vars="GCP_PROJECT"=$GCP_PROJECT \
+        --set-env-vars="AIR_POLLUTION_BQ_DATASET"=$AIR_POLLUTION_BQ_DATASET \
+        --set-env-vars="BQ_AIR_POLLUTION_TABLE_NAME"=$BQ_AIR_POLLUTION_TABLE_NAME \
+        --set-env-vars="AIR_POLLUTION_API_KEY"=$AIR_POLLUTION_API_KEY \
+        --timeout 540s
