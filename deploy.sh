@@ -1,10 +1,3 @@
-echo "Deploy to project $GCP_PROJECT" 
-echo "Deploy to region $GCP_FUNCTION_REGION"
-echo "Triggered by $GCP_TOPIC_AIR_POLLUTION topic"
-echo "BQ dataset name $AIR_POLLUTION_BQ_DATASET"
-echo "BQ table name $BQ_AIR_POLLUTION_TABLE_NAME"
-
-
 gcloud functions deploy air-pollution-scraper \
     --entry-point main \
     --source . \
