@@ -12,3 +12,4 @@ gcloud functions deploy air-pollution-scraper \
     --set-env-vars="BQ_AIR_POLLUTION_TABLE_NAME"=$BQ_AIR_POLLUTION_TABLE_NAME \
     --set-env-vars="AIR_POLLUTION_API_KEY"=$AIR_POLLUTION_API_KEY \
     --timeout 540s
+    
