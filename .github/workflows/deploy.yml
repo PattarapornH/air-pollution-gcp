@@ -1,20 +1,20 @@
 name: Cloud function deployment
 on: [push]
 
-env:
-  AIR_POLLUTION_API_KEY: ${{ secrets.AIR_POLLUTION_API_KEY }}
-  AIR_POLLUTION_BQ_DATASET: ${{ secrets.AIR_POLLUTION_BQ_DATASET }}
-  BQ_AIR_POLLUTION_TABLE_NAME: ${{ secrets.BQ_AIR_POLLUTION_TABLE_NAME }}
-  GCP_FUNCTION_REGION: ${{ secrets.GCP_FUNCTION_REGION }}
-  GCP_PROJECT: ${{ secrets.GCP_PROJECT }}
-  GCP_TOPIC_AIR_POLLUTION: ${{ secrets.GCP_TOPIC_AIR_POLLUTION }}
+
 
 jobs:
   deployment:
     runs-on: ubuntu-latest
-
+    env:
+      AIR_POLLUTION_API_KEY: ${{ secrets.AIR_POLLUTION_API_KEY }}
+      AIR_POLLUTION_BQ_DATASET: ${{ secrets.AIR_POLLUTION_BQ_DATASET }}
+      BQ_AIR_POLLUTION_TABLE_NAME: ${{ secrets.BQ_AIR_POLLUTION_TABLE_NAME }}
+      GCP_FUNCTION_REGION: ${{ secrets.GCP_FUNCTION_REGION }}
+      GCP_PROJECT: ${{ secrets.GCP_PROJECT }}
+      GCP_TOPIC_AIR_POLLUTION: ${{ secrets.GCP_TOPIC_AIR_POLLUTION }}
     steps:
-      # simple strp
+      # simple step
       - run: echo "🎉 The job was automatically triggered by a ${{ github.event_name }} event."
       - run: echo "🐧 This job is now running on a ${{ runner.os }} server hosted by GitHub!"
       - run: echo "🔎 The name of your branch is ${{ github.ref }} and your repository is ${{ github.repository }}."
@@ -30,6 +30,6 @@ jobs:
         uses: google-github-actions/auth@v0.4.0
         with:
           workload_identity_provider: ${{ secrets.WORKLOAD_IDENTITY_PROVIDER }}
-          service_account: ${{ secrets.SERVICE_ACCOUNT }}
+          service_account: ${{ secrets.SERVICE_ACCOUNT_EMAIL }}
       - name: deployment
         run: sh deploy.sh
