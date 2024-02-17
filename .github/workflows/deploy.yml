@@ -13,6 +13,8 @@ jobs:
       GCP_FUNCTION_REGION: ${{ secrets.GCP_FUNCTION_REGION }}
       GCP_PROJECT: ${{ secrets.GCP_PROJECT }}
       GCP_TOPIC_AIR_POLLUTION: ${{ secrets.GCP_TOPIC_AIR_POLLUTION }}
+    permissions:
+      id-token: write 
     steps:
       # simple step
       - run: echo "🎉 The job was automatically triggered by a ${{ github.event_name }} event."
